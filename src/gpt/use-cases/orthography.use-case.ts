@@ -1,6 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/require-await
-export const orthographyCheckUseCase = async () => {
+interface Options {
+  prompt: string;
+}
+
+export const orthographyCheckUseCase = async (options: Options) => {
+  const { prompt } = options;
+
   return {
-    hola: 'Mundo desde UseCase',
+    prompt: prompt,
   };
 };
