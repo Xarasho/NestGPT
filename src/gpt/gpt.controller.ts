@@ -1,5 +1,6 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { GptService } from './gpt.service';
+import { OrthographyDto } from './dtos/orthography.dto';
 
 // Controllers listen to requests and return responses
 @Controller('gpt')
@@ -9,7 +10,8 @@ export class GptController {
   constructor(private readonly gptService: GptService) {}
 
   @Post('orthography-check')
-  orthographyCheck() {
-    return this.gptService.orthographyCheck();
+  orthographyCheck(@Body() orthographyDto: OrthographyDto): OrthographyDto {
+    return orthographyDto;
+    // return this.gptService.orthographyCheck();
   }
 }
