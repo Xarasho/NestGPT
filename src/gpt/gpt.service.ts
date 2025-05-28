@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { orthographyCheckUseCase } from './use-cases';
-import OrthographyDto from './dtos';
+import { OrthographyDto } from './dtos';
 
 // Services are a centralized place to maintain information
 @Injectable()
