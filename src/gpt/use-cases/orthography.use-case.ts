@@ -36,15 +36,20 @@ export const orthographyCheckUseCase = async (
       },
       { role: 'user', content: prompt },
     ],
-    model: 'gpt-4o',
+    model: 'gpt-3.5-turbo-1106',
     temperature: 0.3,
     max_tokens: 150,
+    response_format: {
+      type: 'json_object',
+    },
   });
 
   // console.log(completion);
   // console.log(prompt);
 
-  return completion.choices[0].message.content;
+  const jsonResp = JSON.parse(completion.choices[0].message.content);
+
+  return jsonResp;
 
   // return {
   //   prompt: prompt,
