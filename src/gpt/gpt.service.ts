@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import OpenAI from 'openai';
 
-import { orthographyCheckUseCase } from './use-cases';
-import { OrthographyDto } from './dtos';
+import { orthographyCheckUseCase, prosConsDiscusserUseCase } from './use-cases';
+import { OrthographyDto, ProsConsDiscusserDto } from './dtos';
 
 // Services are a centralized place to maintain information
 @Injectable()
@@ -16,5 +16,9 @@ export class GptService {
     return await orthographyCheckUseCase(this.openai, {
       prompt: orthographyDto.prompt,
     });
+  }
+
+  async prosConsDicusser({ prompt }: ProsConsDiscusserDto) {
+    return await prosConsDiscusserUseCase(this.openai, { prompt });
   }
 }

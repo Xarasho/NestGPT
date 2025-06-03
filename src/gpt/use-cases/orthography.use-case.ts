@@ -4,10 +4,16 @@ interface Options {
   prompt: string;
 }
 
+export interface OrthographyResponse {
+  userScore: number;
+  errors: string[];
+  message: string;
+}
+
 export const orthographyCheckUseCase = async (
   openai: OpenAI,
   options: Options,
-) => {
+): Promise<OrthographyResponse> => {
   const { prompt } = options;
 
   const completion = await openai.chat.completions.create({
@@ -27,8 +33,8 @@ export const orthographyCheckUseCase = async (
         Ejemplo de salida:
         {
           userScore: number,
-          errors: string[], // ['error -> solución']
-          message: string, //  Usa emojis y texto para felicitar al usuario
+          errors: string[], // ['error -> solución'] Debe ser un array
+          message: string, //  Usa emojis y texto para felicitar al usuario si esta correcto el texto
         }
         
 
@@ -36,7 +42,8 @@ export const orthographyCheckUseCase = async (
       },
       { role: 'user', content: prompt },
     ],
-    model: 'gpt-3.5-turbo-1106',
+    // model: 'gpt-3.5-turbo-1106',
+    model: 'gpt-4o',
     temperature: 0.3,
     max_tokens: 150,
     response_format: {
@@ -47,7 +54,9 @@ export const orthographyCheckUseCase = async (
   // console.log(completion);
   // console.log(prompt);
 
-  const jsonResp = JSON.parse(completion.choices[0].message.content);
+  const jsonResp = JSON.parse(
+    completion.choices[0].message.content!,
+  ) as OrthographyResponse;
 
   return jsonResp;
 
