@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class TranslateDto {
   @IsString()
-  prompt: string;
+  readonly prompt: string;
 
   @IsString()
-  lang: string;
+  readonly lang: string;
 }

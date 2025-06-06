@@ -9,19 +9,17 @@ export const translateUseCase = async (
   openai: OpenAI,
   { prompt, lang }: Options,
 ) => {
-  return await openai.chat.completions.create({
+  const response = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [
       {
         role: 'system',
         content: `Traduce el siguiente texto al idioma ${lang}:${prompt}`,
       },
-      {
-        role: 'user',
-        content: prompt,
-      },
     ],
-    temperature: 0.8,
-    max_tokens: 500,
+    temperature: 0.2,
+    // max_tokens: 500,
   });
+
+  return { message: response.choices[0].message.content };
 };
