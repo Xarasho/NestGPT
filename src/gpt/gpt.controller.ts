@@ -120,8 +120,9 @@ export class GptController {
     )
     file: Express.Multer.File,
   ) {
-    console.log({ file, mimetype: file.mimetype });
-    return 'done';
+    // console.log({ file, mimetype: file.mimetype });
+    // return 'done';
+    return this.gptService.audioToText(file);
   }
 }
 

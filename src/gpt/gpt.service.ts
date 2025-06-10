@@ -8,6 +8,7 @@ import { FileValidator } from '@nestjs/common';
 import OpenAI from 'openai';
 
 import {
+  audioToTextUseCase,
   orthographyCheckUseCase,
   prosConsDiscusserStreamUseCase,
   prosConsDiscusserUseCase,
@@ -78,6 +79,10 @@ export class GptService {
       throw new NotFoundException(`File ${fileId} not found`);
     }
     return filePath;
+  }
+
+  async audioToText(audioFile: Express.Multer.File, prompt?: string) {
+    return await audioToTextUseCase(this.openai, { audioFile, prompt });
   }
 }
 
