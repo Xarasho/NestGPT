@@ -20,6 +20,7 @@ import {
   ProsConsDiscusserDto,
   TranslateDto,
   TextToAudioDto,
+  AudioToTextDto,
 } from './dtos';
 
 interface ExtensionValidatorOptions {
@@ -81,7 +82,12 @@ export class GptService {
     return filePath;
   }
 
-  async audioToText(audioFile: Express.Multer.File, prompt?: string) {
+  async audioToText(
+    audioFile: Express.Multer.File,
+    audioToTextDto: AudioToTextDto,
+  ) {
+    const { prompt } = audioToTextDto;
+
     return await audioToTextUseCase(this.openai, { audioFile, prompt });
   }
 }

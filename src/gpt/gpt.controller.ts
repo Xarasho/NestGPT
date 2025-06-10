@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { FileExtensionValidator, GptService } from './gpt.service';
 import {
+  AudioToTextDto,
   OrthographyDto,
   ProsConsDiscusserDto,
   TextToAudioDto,
@@ -119,10 +120,12 @@ export class GptController {
       }),
     )
     file: Express.Multer.File,
+    @Body() audioToTextDto: AudioToTextDto,
   ) {
     // console.log({ file, mimetype: file.mimetype });
     // return 'done';
-    return this.gptService.audioToText(file);
+    return this.gptService.audioToText(file, audioToTextDto);
+    // console.log({ audioToTextDto });
   }
 }
 
