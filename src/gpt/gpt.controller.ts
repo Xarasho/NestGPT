@@ -14,6 +14,7 @@ import {
 import { FileExtensionValidator, GptService } from './gpt.service';
 import {
   AudioToTextDto,
+  ImageGenerationDto,
   OrthographyDto,
   ProsConsDiscusserDto,
   TextToAudioDto,
@@ -126,6 +127,11 @@ export class GptController {
     // return 'done';
     return this.gptService.audioToText(file, audioToTextDto);
     // console.log({ audioToTextDto });
+  }
+
+  @Post('image-generation')
+  async imageGeneration(@Body() imageGenerationDto: ImageGenerationDto) {
+    return await this.gptService.imageGeneration(imageGenerationDto);
   }
 }
 

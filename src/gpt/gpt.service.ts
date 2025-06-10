@@ -6,9 +6,11 @@ import { FileValidator } from '@nestjs/common';
 // import { BadRequestException } from '@nestjs/common';
 
 import OpenAI from 'openai';
+import { ImageGenerationDto } from './dtos/image-generation.dto';
 
 import {
   audioToTextUseCase,
+  imageGenerationUseCase,
   orthographyCheckUseCase,
   prosConsDiscusserStreamUseCase,
   prosConsDiscusserUseCase,
@@ -89,6 +91,10 @@ export class GptService {
     const { prompt } = audioToTextDto;
 
     return await audioToTextUseCase(this.openai, { audioFile, prompt });
+  }
+
+  async imageGeneration(imageGenerationDto: ImageGenerationDto) {
+    return imageGenerationUseCase(this.openai, { ...imageGenerationDto });
   }
 }
 
