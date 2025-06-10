@@ -2,6 +2,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { FileValidator } from '@nestjs/common';
+// import { BadRequestException } from '@nestjs/common';
 
 import OpenAI from 'openai';
 
@@ -18,6 +20,10 @@ import {
   TranslateDto,
   TextToAudioDto,
 } from './dtos';
+
+interface ExtensionValidatorOptions {
+  allowedExtensions: string[];
+}
 
 // Services are a centralized place to maintain information
 @Injectable()
@@ -48,16 +54,45 @@ export class GptService {
     return await textToAudioUseCase(this.openai, { prompt, voice });
   }
 
-  textToAudioGetter(fileId: string) {
+  // async textToAudioGetter(fileId: string) {
+  //   const filePath = path.resolve(
+  //     __dirname,
+  //     '../../generated/audios/',
+  //     `${fileId}.mp3`,
+  //   );
+  //   const wasFound = fs.existsSync(filePath);
+
+  //   if (!wasFound) throw new NotFoundException(`File ${fileId} not found`);
+
+  //   return filePath;
+  // }
+  async textToAudioGetter(fileId: string) {
     const filePath = path.resolve(
       __dirname,
       '../../generated/audios/',
       `${fileId}.mp3`,
     );
-    const wasFound = fs.existsSync(filePath);
-
-    if (!wasFound) throw new NotFoundException(`File ${fileId} not found`);
-
+    try {
+      await fs.promises.access(filePath, fs.constants.F_OK);
+    } catch {
+      throw new NotFoundException(`File ${fileId} not found`);
+    }
     return filePath;
+  }
+}
+
+@Injectable()
+export class FileExtensionValidator extends FileValidator<ExtensionValidatorOptions> {
+  buildErrorMessage(file: Express.Multer.File): string {
+    console.log(file);
+    return `Invalid file extension. Allowed extensions are: ${this.validationOptions.allowedExtensions.join(', ')}`;
+  }
+
+  isValid(file: Express.Multer.File): boolean {
+    const extension = file.originalname.split('.').pop()?.toLowerCase();
+    return (
+      !!extension &&
+      this.validationOptions.allowedExtensions.includes(extension)
+    );
   }
 }
