@@ -11,6 +11,7 @@ import { ImageGenerationDto } from './dtos/image-generation.dto';
 import {
   audioToTextUseCase,
   imageGenerationUseCase,
+  imageVariationUseCase,
   orthographyCheckUseCase,
   prosConsDiscusserStreamUseCase,
   prosConsDiscusserUseCase,
@@ -23,6 +24,7 @@ import {
   TranslateDto,
   TextToAudioDto,
   AudioToTextDto,
+  ImageVariationDto,
 } from './dtos';
 
 interface ExtensionValidatorOptions {
@@ -108,6 +110,10 @@ export class GptService {
     // console.log({ filePath });
 
     return filePath;
+  }
+
+  async generateImageVariation({ baseImage }: ImageVariationDto) {
+    return imageVariationUseCase(this.openai, { baseImage });
   }
 }
 
