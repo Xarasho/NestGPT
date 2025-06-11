@@ -35,13 +35,13 @@ export const imageGenerationUseCase = async (
   }
 
   // Todo: Save file in file system
-  await downloadImageAsPng(response.data[0].url);
+  const url = await downloadImageAsPng(response.data[0].url);
 
-  console.log(response);
+  // console.log(response);
 
   return {
-    url: response.data[0].url,
-    localPath: '',
+    url: url,
+    openAIUrl: response.data[0].url,
     revised_prompt: response.data[0].revised_prompt,
   };
 };
