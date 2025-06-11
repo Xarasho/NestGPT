@@ -3,7 +3,10 @@ import * as fs from 'fs';
 import * as sharp from 'sharp';
 import { InternalServerErrorException } from '@nestjs/common';
 
-export const downloadImageAsPng = async (url: string) => {
+export const downloadImageAsPng = async (
+  url: string,
+  fullPath: boolean = false,
+) => {
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -22,10 +25,13 @@ export const downloadImageAsPng = async (url: string) => {
   await sharp(buffer).png().ensureAlpha().toFile(completePath);
 
   // return completePath;
-  return imageNamePng;
+  return fullPath ? completePath : imageNamePng;
 };
 
-export const downloadBase64ImageAsPng = async (base64Image: string) => {
+export const downloadBase64ImageAsPng = async (
+  base64Image: string,
+  fullPath: boolean = false,
+) => {
   // Remover encabezado
   base64Image = base64Image.split(';base64,').pop() as string;
   const imageBuffer = Buffer.from(base64Image, 'base64');
@@ -40,5 +46,5 @@ export const downloadBase64ImageAsPng = async (base64Image: string) => {
   await sharp(imageBuffer).png().ensureAlpha().toFile(completePath);
 
   // return path.join(folderPath, imageNamePng);
-  return imageNamePng;
+  return fullPath ? completePath : imageNamePng;
 };
