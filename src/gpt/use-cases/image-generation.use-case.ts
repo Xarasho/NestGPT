@@ -36,13 +36,11 @@ export const imageGenerationUseCase = async (
 
   // Todo: Save file in file system
   await downloadImageAsPng(response.data[0].url);
-  // const fileName = await downloadImageAsPng(response.data[0].url!);
 
   console.log(response);
 
   return {
     url: response.data[0].url,
-    // localPath: '',
     localPath: '',
     revised_prompt: response.data[0].revised_prompt,
   };
