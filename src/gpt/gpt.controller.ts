@@ -138,6 +138,7 @@ export class GptController {
   @Get('image-generation/:filename')
   getGeneratedImage(@Res() res: Response, @Param('filename') fileName: string) {
     const filePath = this.gptService.getGeneratedImage(fileName);
+    res.setHeader('Content-Type', 'image/png');
     res.status(HttpStatus.OK);
     res.sendFile(filePath);
   }

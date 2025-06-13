@@ -50,11 +50,21 @@ export const imageGenerationUseCase = async (
 
   // originalImage= http://172.26.16.116:3000/gpt/image-generation/1749597767837.png
   // maskImage=Base64;fakdsjhf9784t7239p2qy5p94h5p4959q8435ugvn845845nq84y5gvn84q25
-  const pngImagePath = await downloadImageAsPng(originalImage);
-  const maskPath = await downloadBase64ImageAsPng(maskImage);
+  const pngImagePath = await downloadImageAsPng(originalImage, true);
+  const maskPath = await downloadBase64ImageAsPng(maskImage, true);
+
+  // const imageBuffer = fs.readFileSync(pngImagePath);
+  // const maskBuffer = fs.readFileSync(maskPath);
+  // const imageFile = new File([imageBuffer], 'image.png', {
+  //   type: 'image/png',
+  // });
+
+  // const maskFile = new File([maskBuffer], 'mask.png', {
+  //   type: 'image/png',
+  // });
 
   const response = await openai.images.edit({
-    model: 'dall-e-3',
+    model: 'dall-e-2',
     prompt: prompt,
     image: fs.createReadStream(pngImagePath),
     mask: fs.createReadStream(maskPath),
