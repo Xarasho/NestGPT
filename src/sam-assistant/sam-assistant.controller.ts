@@ -8,7 +8,7 @@ export class SamAssistantController {
 
   @Post('create-thread')
   async createThread() {
-    return 'create thread';
+    return this.samAssistantService.createThread();
   }
 
   @Post('user-question')
