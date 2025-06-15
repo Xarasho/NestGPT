@@ -5,6 +5,7 @@ import {
   createMessageUseCase,
   createRunUseCase,
   createThreadUseCase,
+  getMessageListUseCase,
 } from './use-cases';
 import { QuestionDto } from './dtos/question.dto';
 
@@ -25,7 +26,8 @@ export class SamAssistantService {
       threadId,
       question,
     });
-    // console.log({ message });
+    console.log({ message });
+
     const run = await createRunUseCase(this.openai, {
       threadId,
     });
@@ -34,5 +36,9 @@ export class SamAssistantService {
       runId: run.id,
       threadId: threadId,
     });
+
+    const messages = await getMessageListUseCase(this.openai, { threadId });
+
+    return messages.reverse();
   }
 }
